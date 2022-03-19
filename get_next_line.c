@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:08:43 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 18:26:35 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static char	*make_line(int *fd, t_pair *pair, int force)
 
 	if (length < 0)
 		return (NULL);
-	result = malloc(length + 1);
+	result = malloc((length + 1) * sizeof(char));
 	if (result)
 	{
 		i = 0;
@@ -109,6 +109,7 @@ static char	*make_line(int *fd, t_pair *pair, int force)
 			free(pair->head);
 			pair->head = next;
 		}
+		result[i] = '\0';
 	}
 	else
 		*fd = -1;
