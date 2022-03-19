@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 19:36:20 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 19:43:54 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static ssize_t	prepare_line(int *fd, t_pair *pair, int force)
 			length += chain->size - chain->offset;
 		else
 		{
-			length += (index + 1) - chain->offset;
+			length += index + 1;
 			break ;
 		}
 		chain = chain->next;
