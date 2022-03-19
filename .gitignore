@@ -1,0 +1,10 @@
+## MacOS Temporary files
+.DS_Store
+
+## Binary files
+*.o
+*.a
+*.out
+
+## Debugger symbol directories
+*.dSYM/
