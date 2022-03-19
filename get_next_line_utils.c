@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:41 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:40:30 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 19:36:06 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ void	*ft_memset(void *b, int c, size_t len)
 	return (b);
 }
 
-ssize_t	ft_memchri(const void *s, int c, size_t n)
+ssize_t	ft_memchri(const void *buf, ssize_t offset, int c, ssize_t length)
 {
-	ssize_t	i;
+	const void		*s = &buf[offset];
+	const ssize_t	n = length - offset;
+	ssize_t			i;
 
 	i = 0;
 	while (i < n)
@@ -49,14 +51,12 @@ int	link_chain(t_string_chain **head, t_string_chain *new_chain)
 	}
 	else
 		*head = new_chain;
-	new_chain->offset = 0;
-	new_chain->next = NULL;
 	return (!(new_chain->size < 0));
 }
 
 int	consume_chain(t_string_chain *chain, char *s, ssize_t *i, ssize_t n)
 {
-	while (chain->offset < chain->size && *i < n)
+	while (*i < n && chain->offset < chain->size)
 		s[(*i)++] = chain->buf[chain->offset++];
 	if (chain->offset < chain->size)
 		return (0);

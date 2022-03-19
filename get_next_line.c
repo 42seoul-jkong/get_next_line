@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 19:05:21 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 19:36:20 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static ssize_t	prepare_line(int *fd, t_pair *pair, int force)
 	chain = pair->head;
 	while (chain)
 	{
-		index = ft_memchri(&chain->buf[chain->offset], '\n', chain->size);
+		index = ft_memchri(chain->buf, chain->offset, '\n', chain->size);
 		if (index < 0)
 			length += chain->size - chain->offset;
 		else
@@ -131,6 +131,7 @@ char	*get_next_line(int fd)
 		new_chain = malloc(sizeof(t_string_chain));
 		if (new_chain)
 		{
+			ft_memset(new_chain, 0, sizeof(*new_chain));
 			new_chain->size = read(fd, new_chain->buf, sizeof(new_chain->buf));
 			if (link_chain(&pair->head, new_chain))
 				result = make_line(&fd, pair, new_chain->size == 0);
