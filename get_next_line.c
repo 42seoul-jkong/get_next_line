@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:53:04 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 18:55:58 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 	result = malloc(sizeof(t_pair));
 	if (!result)
 		return (NULL);
-	ft_memset(&result, 0, sizeof(result));
+	ft_memset(result, 0, sizeof(*result));
 	result->fd = fd;
 	return (result);
 }
