@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:55:58 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 19:05:21 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	put_record(t_pair *map[BUCKET_SIZE], int fd, t_pair *pair)
 	map[fd % BUCKET_SIZE] = pair;
 }
 
-static ssize_t	prepare_line(t_pair *pair, int force)
+static ssize_t	prepare_line(int *fd, t_pair *pair, int force)
 {
 	t_string_chain	*chain;
 	ssize_t			index;
@@ -81,19 +81,21 @@ static ssize_t	prepare_line(t_pair *pair, int force)
 		}
 		chain = chain->next;
 	}
-	if (index < 0 && !force)
+	if (!force && index < 0)
 		return (-1);
+	if (force && length == 0)
+		*fd = -1;
 	return (length);
 }
 
 static char	*make_line(int *fd, t_pair *pair, int force)
 {
-	const ssize_t	length = prepare_line(pair, force);
+	const ssize_t	length = prepare_line(fd, pair, force);
 	t_string_chain	*next;
 	char			*result;
 	ssize_t			i;
 
-	if (length < 0)
+	if (length < 0 || *fd < 0)
 		return (NULL);
 	result = malloc((length + 1) * sizeof(char));
 	if (result)
