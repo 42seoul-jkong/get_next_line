@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:31 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:06:01 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 18:40:36 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ struct s_string_chain
 */
 char	*get_next_line(int fd);
 
+void	*ft_memset(void *b, int c, size_t len);
 ssize_t	ft_memchri(const void *s, int c, size_t n);
 int		link_chain(t_string_chain **head, t_string_chain *new_chain);
 int		consume_chain(t_string_chain *chain, char *s, ssize_t *i, ssize_t n);

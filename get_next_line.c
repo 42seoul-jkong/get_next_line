@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:26:35 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 18:53:04 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 		{
 			if (latest)
 				latest->next = result->next;
+			else
+				map[fd % BUCKET_SIZE] = NULL;
 			result->next = NULL;
 			return (result);
 		}
@@ -32,18 +34,15 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 		result = result->next;
 	}
 	result = malloc(sizeof(t_pair));
-	if (result)
-	{
-		result->fd = fd;
-		result->head = NULL;
-		result->next = NULL;
-	}
+	if (!result)
+		return (NULL);
+	ft_memset(&result, 0, sizeof(result));
+	result->fd = fd;
 	return (result);
 }
 
 static void	put_record(t_pair *map[BUCKET_SIZE], int fd, t_pair *pair)
 {
-	t_pair			**head_ptr;
 	t_string_chain	*chain;
 
 	if (!pair->head || fd < 0)
@@ -57,9 +56,8 @@ static void	put_record(t_pair *map[BUCKET_SIZE], int fd, t_pair *pair)
 		free(pair);
 		return ;
 	}
-	head_ptr = &map[fd % BUCKET_SIZE];
-	pair->next = *head_ptr;
-	*head_ptr = pair;
+	pair->next = map[fd % BUCKET_SIZE];
+	map[fd % BUCKET_SIZE] = pair;
 }
 
 static ssize_t	prepare_line(t_pair *pair, int force)

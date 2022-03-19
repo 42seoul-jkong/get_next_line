@@ -6,11 +6,21 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:41 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 18:05:59 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/19 18:40:30 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	*ft_memset(void *b, int c, size_t len)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < len)
+		((unsigned char *)b)[i++] = (unsigned char)c;
+	return (b);
+}
 
 ssize_t	ft_memchri(const void *s, int c, size_t n)
 {
