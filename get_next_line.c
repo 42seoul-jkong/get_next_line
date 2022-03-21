@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 20:10:40 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 14:35:28 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 
 static void	put_record(t_pair *map[BUCKET_SIZE], int fd, t_pair *pair)
 {
-	t_string_chain	*chain;
+	t_chain	*chain;
 
 	if (!pair->head || fd < 0)
 	{
@@ -58,9 +58,9 @@ static void	put_record(t_pair *map[BUCKET_SIZE], int fd, t_pair *pair)
 
 static ssize_t	prepare_line(int *fd, t_pair *pair, int force)
 {
-	t_string_chain	*chain;
-	ssize_t			index;
-	ssize_t			length;
+	t_chain	*chain;
+	ssize_t	index;
+	ssize_t	length;
 
 	index = -1;
 	length = 0;
@@ -86,7 +86,7 @@ static ssize_t	prepare_line(int *fd, t_pair *pair, int force)
 static char	*make_line(int *fd, t_pair *pair, int force)
 {
 	const ssize_t	length = prepare_line(fd, pair, force);
-	t_string_chain	*next;
+	t_chain			*next;
 	char			*result;
 	ssize_t			i;
 
@@ -115,7 +115,7 @@ char	*get_next_line(int fd)
 {
 	static t_pair	*map[BUCKET_SIZE];
 	t_pair *const	pair = get_record(map, fd);
-	t_string_chain	*new_chain;
+	t_chain			*elem;
 	char			*result;
 
 	if (!pair)
@@ -123,8 +123,8 @@ char	*get_next_line(int fd)
 	result = make_line(&fd, pair, 0);
 	while (!result && !(fd < 0))
 	{
-		if (read_chain(&new_chain, fd) && link_chain(&pair->head, new_chain))
-			result = make_line(&fd, pair, new_chain->size == 0);
+		if (create_chain(&pair->head, &elem, fd) && !(elem->size < 0))
+			result = make_line(&fd, pair, elem->size == 0);
 		else
 			fd = -1;
 	}

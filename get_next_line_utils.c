@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:41 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 20:09:56 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 14:35:02 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,41 @@ t_pair	*new_pair(int fd)
 	return (result);
 }
 
-int	read_chain(t_string_chain **chain, int fd)
+t_chain	*new_chain(void)
 {
-	t_string_chain	*result;
+	t_chain	*result;
 
-	*chain = malloc(sizeof(t_string_chain));
-	if (!*chain)
-		return (0);
-	result = *chain;
-	result->size = read(fd, result->buf, sizeof(result->buf));
+	result = malloc(sizeof(t_chain));
+	if (!result)
+		return (NULL);
 	result->offset = 0;
 	result->next = NULL;
-	return (1);
+	return (result);
 }
 
-int	link_chain(t_string_chain **head, t_string_chain *new_chain)
+int	create_chain(t_chain **head, t_chain **elem, int fd)
 {
-	t_string_chain	*chain;
+	t_chain	*target;
+	t_chain	*chain;
 
+	*elem = new_chain();
+	target = *elem;
+	if (!target)
+		return (0);
+	target->size = read(fd, target->buf, sizeof(target->buf));
 	chain = *head;
 	if (chain)
 	{
 		while (chain->next)
 			chain = chain->next;
-		chain->next = new_chain;
+		chain->next = target;
 	}
 	else
-		*head = new_chain;
-	return (!(new_chain->size < 0));
+		*head = target;
+	return (1);
 }
 
-ssize_t	findchr_chain(t_string_chain *chain, int c)
+ssize_t	findchr_chain(t_chain *chain, int c)
 {
 	const void		*s = &chain->buf[chain->offset];
 	const ssize_t	n = chain->size - chain->offset;
@@ -71,7 +75,7 @@ ssize_t	findchr_chain(t_string_chain *chain, int c)
 	return (-1);
 }
 
-int	consume_chain(t_string_chain *chain, char *s, ssize_t *i, ssize_t n)
+int	consume_chain(t_chain *chain, char *s, ssize_t *i, ssize_t n)
 {
 	while (*i < n && chain->offset < chain->size)
 		s[(*i)++] = chain->buf[chain->offset++];

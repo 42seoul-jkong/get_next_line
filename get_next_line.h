@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:31 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/19 20:09:48 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 14:35:06 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,23 +22,23 @@
 
 # define BUCKET_SIZE 5
 
-typedef struct s_pair			t_pair;
+typedef struct s_pair	t_pair;
 
-typedef struct s_string_chain	t_string_chain;
+typedef struct s_chain	t_chain;
 
 struct s_pair
 {
-	int				fd;
-	t_string_chain	*head;
-	t_pair			*next;
+	int		fd;
+	t_chain	*head;
+	t_pair	*next;
 };
 
-struct s_string_chain
+struct s_chain
 {
-	char			buf[BUFFER_SIZE];
-	ssize_t			size;
-	ssize_t			offset;
-	t_string_chain	*next;
+	char	buf[BUFFER_SIZE];
+	ssize_t	size;
+	ssize_t	offset;
+	t_chain	*next;
 };
 
 /*
@@ -56,9 +56,9 @@ struct s_string_chain
 char	*get_next_line(int fd);
 
 t_pair	*new_pair(int fd);
-int		read_chain(t_string_chain **chain, int fd);
-int		link_chain(t_string_chain **head, t_string_chain *new_chain);
-ssize_t	findchr_chain(t_string_chain *chain, int c);
-int		consume_chain(t_string_chain *chain, char *s, ssize_t *i, ssize_t n);
+t_chain	*new_chain(void);
+int		create_chain(t_chain **head, t_chain **elem, int fd);
+ssize_t	findchr_chain(t_chain *chain, int c);
+int		consume_chain(t_chain *chain, char *s, ssize_t *i, ssize_t n);
 
 #endif
