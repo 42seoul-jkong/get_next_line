@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:41 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/21 14:43:48 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 21:42:43 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,9 @@ int	create_chain(t_chain **head, t_chain **elem, int fd)
 
 ssize_t	findchr_chain(t_chain *chain, int c)
 {
-	const void		*s = &chain->buf[chain->offset];
-	const ssize_t	n = chain->size - chain->offset;
-	ssize_t			i;
+	const void *const	s = &chain->buf[chain->offset];
+	const ssize_t		n = chain->size - chain->offset;
+	ssize_t				i;
 
 	i = 0;
 	while (i < n)
