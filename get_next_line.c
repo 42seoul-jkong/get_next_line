@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:21 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/21 14:35:28 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 17:01:39 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 	t_pair	*latest;
 	t_pair	*result;
 
+	if (fd < 0)
+		return (NULL);
 	latest = NULL;
 	result = map[fd % BUCKET_SIZE];
 	while (result)
@@ -26,7 +28,7 @@ static t_pair	*get_record(t_pair *map[BUCKET_SIZE], int fd)
 			if (latest)
 				latest->next = result->next;
 			else
-				map[fd % BUCKET_SIZE] = NULL;
+				map[fd % BUCKET_SIZE] = result->next;
 			result->next = NULL;
 			return (result);
 		}
