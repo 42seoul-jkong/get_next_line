@@ -6,7 +6,7 @@
 /*   By: jkong <jkong@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 13:44:31 by jkong             #+#    #+#             */
-/*   Updated: 2022/03/21 14:43:41 by jkong            ###   ########.fr       */
+/*   Updated: 2022/03/21 22:14:10 by jkong            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@
 #  define BUFFER_SIZE 4096
 # endif
 
-# define BUCKET_SIZE 5
+# ifndef BUCKET_SIZE
+#  define BUCKET_SIZE 5
+# endif
 
 typedef struct s_pair	t_pair;
 
